@@ -4,13 +4,17 @@
 <title>Flocker</title>
 <meta name="description" content="A Flask based blueprint docker">
 <meta name="author" content="Max Zangs">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 {% endblock %}
 
 {% block body %}
-A list of all available blueptints:
-<ul>
-    {% for blueprint in blueprints %}
-    <li><a href="{{ url_for(blueprint.name + '.index') }}">{{ blueprint.name }}</a></li>
-    {% endfor %}
-</ul>
+<div id="content">
+    <h1>Welcome</h1>
+    <h2>Available blueprints / sub-projects</h2>
+    <ul>
+        {% for blueprint in blueprints %}
+        <li><a href="{{ url_for(blueprint.name + '.index') }}">{{ blueprint.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}
