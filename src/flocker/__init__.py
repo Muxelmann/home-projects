@@ -8,12 +8,8 @@ def create_app():
     app = Flask(__name__, instance_relative_config=True)
     app.secret_key = os.urandom(16)
 
-    # sample_file_path = os.path.sep.join((app.instance_path, 'data.json'))
-
-    try:
+    if not os.path.exists(app.instance_path):
         os.makedirs(app.instance_path)
-    except OSError:
-        pass
 
     # Tidy up all symbolically linked templates and statics
     templates = os.listdir(os.path.join(os.path.dirname(__file__), 'templates'))
