@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Flocker</title>
+<meta name="description" content="A Flask based blueprint docker">
+<meta name="author" content="Max Zangs">
+{% endblock %}
+
+{% block body %}
+A list of all available blueptints:
+<ul>
+    {% for blueprint in blueprints %}
+    <li><a href="{{ url_for(blueprint.name + '.index') }}">{{ blueprint.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
