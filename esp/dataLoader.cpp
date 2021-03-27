@@ -32,7 +32,7 @@ namespace DATA {
   }
   
   String getImageData(unsigned char seg) {
-    return getHttpData(DATA_URL + "/imageData/" + WiFi.macAddress() + "&segCount=" + String(SEG_COUNT) + "&seg=" + String(seg));
+    return getHttpData(DATA_URL + "/imageData/" + WiFi.macAddress() + "?segCount=" + String(SEG_COUNT) + "&seg=" + String(seg));
   }
   
   int getDelayTime() {
