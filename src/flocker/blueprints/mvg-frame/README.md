@@ -21,6 +21,8 @@ Laut verschiedenen Quellen benötigt man einen Schlüsse, um automatisierte Abru
 3. die Pixeldaten des Bildes in ein für den eInk Bildschirm kompatibles Format konvertiert, und
 4. die konvertierten Pixeldaten häppchenweise an den eInk Bildschirm überträgt - der Buffer im ESP8266 ist sehr beschränkt.
 
+![Server Screenshot](https://github.com/Muxelmann/home-projects/raw/main/src/flocker/blueprints/mvg-frame/readme/server-ui.png)
+
 ## MVG Schnittstelle (API)
 
 Die Schnittstelle lässt sich wie folgt abfragen:
