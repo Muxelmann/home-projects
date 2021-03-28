@@ -14,9 +14,16 @@ Laut verschiedenen Quellen benötigt man einen Schlüsse, um atomatisierte Abruf
 'X-MVG-Authorization-Key': 5af1beca494712ed38d313714d4caff6
 ```
 
-## API
+Über diese Schnittstelel lassen sich auch die Abfahrtszeiten der Busse, U-Bahnen, S-Bahnen und Trams für eine Haltestelle / einen Bahnhof abrufen. Dieses Projekt stellt einen Server für den eInk Bildschirm bereit und bilded dadurch ein Relais, das:
 
-Die API lässt sich wie folgt abfragen:
+1. die Abfahrtsdaten über die MVG-Schnittstelle abruft,
+2. ein Bild mit den nächsten 7 Abfahrten anzeigt,
+3. die Pixeldaten des Bildes in ein für den eInk Bildschirm kompatibles Format konvertiert, und
+4. die konvertierten Pixeldaten häppchenweise an den eInk Bildschirm überträgt - der Buffer im ESP8266 ist sehr beschränkt.
+
+## MVG Schnittstelle (API)
+
+Die Schnittstelle lässt sich wie folgt abfragen:
 
 | URL | Info |
 | --- | --- |
@@ -24,7 +31,7 @@ Die API lässt sich wie folgt abfragen:
 | `https://www.mvg.de/api/fahrinfo/departure/{id}?footway={offset}` | Fragt Abfahrtsinfos zu einer bestimmten Haltestelle / zu einem bestimmten Bahnhof ab. Der Wert für `{id}` für eine Haltestelle / einen Bahnhof kann über `queryWeb` erhalten werden. Der Wert `{offset}` gibt den Fußweg zur Haltestelle / zum Bahnhof in Minuten an. |
 | `/location/nearby?latitude={lat}&longitude={lon}` | Findet die nächste Haltestelle / den nächsten Bahnhof zu einer Koordinate (Breitengrad: `{lat}`; Längengrad: `{lon}`). |
 
-Zudem gibt es auch eine Schnittstelle über `https://www.mvg.de/api/fahrinfo/routing/`, wobei die folgenden `GET` Werte gesetzt werden können:
+Diese Funktionen werden auch vom Server genutzt. Zudem gibt es auch eine Schnittstelle über `https://www.mvg.de/api/fahrinfo/routing/`, wobei die folgenden `GET` Werte gesetzt werden können - die wird aber nur der Vollständigkeit hier aufgelistet und nich vom Server genutzt:
 
 | Argument | Wert | Info |
 | --- | --- | --- |
@@ -43,6 +50,29 @@ Zudem gibt es auch eine Schnittstelle über `https://www.mvg.de/api/fahrinfo/rou
 | `transportTypeBus ` | `bool ` | Lässt Busse bei der Suche außer Acht. |
 | `transportTypeTram ` | `bool ` | Lässt Trambahnen bei der Suche außer Acht. |
 | `transportTypeSBahn ` | `bool ` | Lässt S-Bahnen bei der Suche außer Acht. |
+
+## Konvertierung für eInk Bildschirm
+
+Das ESP8266 kann nur eine begrenze HTTP-Antwort mit Bilddaten erhalten. Da nur 3 Farben (Schwarz, Weiß und Rot/Gelb) übertragen werden können, habe ich beschlossen, jedes Pixel mit 2 Bit zu kodieren (also "2bpp"):
+
+| Farbe | ursprünglicher Wert (24bpp) | konvertierter Wert (2bpp) |
+| --- | --- | --- |
+| Schwarz | `0x000000` | `0b00` |
+| Rot / Gelb | `0x010101` bis `0xfefefe` | `0b01` |
+| Rot / Gelb | `0x010101` bis `0xfefefe` | `0b10` |
+| Weiß | `0xffffff` | `0b00` |
+
+Die Reihe von 2 Bit (z.B. `"00110000110000111100..."`) wird dann nicht als solche übertragen (jedes Bit würde ja als ASCII bzw. UTF-8 Symbol übertragen und ein Byte benötigen) sondern in HEX umgewandelt (z.B. `0x30c3c...`). Die Umwandlung eines `str` mit Bits in ein `str` mit HEX-Werten geschieht in Python sehr einfach:
+
+```
+'{:02x}'.format(int(data, base=2))
+```
+
+Das Ergebnis kann dann an den Bildschirm übertragen werden.
+
+### Warum keine Rohdaten?
+
+Ich hatte überlegt, ein 1bpp Bitmap zu übertragen. Jedoch scheint der ESP8266 bei `NULL` also `0x00` bzw. `0b00000000` das Ende der Nachricht zu erkennen anstatt (richtig) 8 aufeinanderfolgende schwarze Pixel zu erkennen. Da auch die Längenangabe des Inhalts der Nachricht (`Content-Length` im HTTP Header) ignoriert zu werden scheint, habe ich die Alternative mit HEX-Werten implementiert.
 
 ## Quellen
 
