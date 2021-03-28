@@ -1,4 +1,6 @@
+import inspect
 import os
+import sys
 import importlib
 import jinja2
 from flask import Flask, render_template
@@ -25,13 +27,20 @@ def create_app():
             os.remove(link_path)
 
     # Find all blueprints
-    blueprint_names = [b for b in os.listdir(os.path.join(os.path.dirname(__file__), 'blueprints')) if b[0] is not '.']
+    blueprint_names = [b for b in os.listdir(os.path.join(os.path.dirname(__file__), 'blueprints')) if b[0] != '.']
     blueprints = {}
 
     for blueprint_name in blueprint_names:
         # Import and register blueprints
         mod = importlib.import_module('flocker.blueprints.{}'.format(blueprint_name))
-        blueprints[blueprint_name] = mod.create_bp()
+        # Determine if an argument can be passed. This argument MUST be app
+        mod_arg_count = len(inspect.getargspec(mod.create_bp)[0])
+        if mod_arg_count == 1:
+            blueprints[blueprint_name] = mod.create_bp(app)
+        elif mod_arg_count == 0:
+            blueprints[blueprint_name] = mod.create_bp()
+        else:
+            raise Exception("Imported module {} cannot be instantiated correctly".format(blueprint_name))
         app.register_blueprint(blueprints[blueprint_name])
 
         # Also add their templates and statics as symlinks
@@ -46,6 +55,6 @@ def create_app():
     @app.route('/index/')
     @app.route('/')
     def index():
-        return render_template('index.html', blueprints=blueprints.values())
+        return render_template('index.html', blueprints=blueprints.values(), python_version=sys.version)
 
     return app
