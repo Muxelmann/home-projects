@@ -6,3 +6,7 @@ Momentan gibt es die folgenden Projekte - mehr Details kann im entsprechenden Bl
 
 - [mvg-frame](https://github.com/Muxelmann/mvg-screen/tree/main/src/flocker/blueprints/mvg-frame), womit eine Schnittstelle betrieben wird, die Daten von der MVG abfrägt und Bilddaten für eine ESP8266 betriebene Abfahrtsanzeige bereitstellt;
 - [blue](https://github.com/Muxelmann/mvg-screen/tree/main/src/flocker/blueprints/blue) und [red](https://github.com/Muxelmann/mvg-screen/tree/main/src/flocker/blueprints/red) sind quasi leere Beispielprojekte, mit denen die Funktionalität von Flocker erklärt werden soll.
+
+Zudem gibt es auch Hardwareprojekte:
+
+- die [ESP8266 betriebene eInk Anzeige](https://github.com/Muxelmann/mvg-screen/tree/main/esp8266-eInk) kommuniziert mit dem [mvg-frame](https://github.com/Muxelmann/mvg-screen/tree/main/src/flocker/blueprints/mvg-frame).
