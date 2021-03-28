@@ -16,5 +16,8 @@
         <li><a href="{{ url_for(blueprint.name + '.index') }}">{{ blueprint.name }}</a></li>
         {% endfor %}
     </ul>
+    {% if python_version %}
+    <p>Running with Python: <em>{{ python_version }}</em>.</p>
+    {% endif %}
 </div>
 {% endblock %}
