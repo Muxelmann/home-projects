@@ -2,40 +2,46 @@
 
 namespace DATA {
   
-  String getHttpData(String url) {
+  String dataStr;
+  
+  void getHttpData(String url) {
     WiFiClient c;
     HTTPClient http;
-    String httpData;
     
     if (http.begin(c, url)) {
-      Serial.print("[DATA] sending HTTP-GET");
+      Serial.print("[DATA]   sending HTTP-GET");
       int httpCode = http.GET();
       Serial.println(" --> DONE");
 
       if (httpCode == HTTP_CODE_OK) {
-          httpData = http.getString();
+          Serial.print("[DATA]   getting data (");
+          Serial.print(http.getSize());
+          Serial.print(")");
+          dataStr = http.getString();
+          Serial.println(" --> DONE");
       } else {
-        Serial.println("[DATA] No data received from \"" + url + "\"");
-        Serial.println("[DATA] Response code was: " + String(httpCode));
+        Serial.println("[DATA]   No data received from \"" + url + "\"");
+        Serial.println("[DATA]   Response code was: " + String(httpCode));
       }
 
       http.end();
     } else  {
-      Serial.println("[HTTP] unable to connect to server");
+      Serial.println("[HTTP]   unable to connect to server");
     }
-  
-    return httpData;
   }
 
   int updateImageData() {
-    return getHttpData(DATA_URL + "/update/" + WiFi.macAddress()).toInt();
+    getHttpData(DATA_URL + "/update/" + WiFi.macAddress());
+    return dataStr.toInt();
   }
   
-  String getImageData(unsigned char seg) {
-    return getHttpData(DATA_URL + "/imageData/" + WiFi.macAddress() + "?segCount=" + String(SEG_COUNT) + "&seg=" + String(seg));
+  String * getImageData(unsigned char seg) {
+    getHttpData(DATA_URL + "/imageData/" + WiFi.macAddress() + "?segCount=" + String(SEG_COUNT) + "&seg=" + String(seg));
+    return &dataStr;
   }
   
   int getDelayTime() {
-    return getHttpData(DATA_URL + "/delayTime/" + WiFi.macAddress()).toInt();
+    getHttpData(DATA_URL + "/delayTime/" + WiFi.macAddress());
+    return dataStr.toInt();
   }
 }
