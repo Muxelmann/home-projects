@@ -2,19 +2,19 @@
 
 ## Übersicht
 
-2018 hat die Münchner Verkehrsgesellschaft (MVG) eine neue Schnittstelle (API) bereitgestellt, die hauptsächlich über die folhende URL abgerufen werden kann:
+2018 hat die Münchner Verkehrsgesellschaft (MVG) eine neue Schnittstelle (API) bereitgestellt, die hauptsächlich über die folgende URL abgerufen werden kann:
 
 ```
 https://www.mvg.de/api/fahrinfo/
 ```
 
-Laut verschiedenen Quellen benötigt man einen Schlüsse, um atomatisierte Abrufe zu authentifizieren<sup>1</sup>:
+Laut verschiedenen Quellen benötigt man einen Schlüsse, um automatisierte Abrufe zu authentifizieren<sup>1</sup>:
 
 ```
 'X-MVG-Authorization-Key': 5af1beca494712ed38d313714d4caff6
 ```
 
-Über diese Schnittstelel lassen sich auch die Abfahrtszeiten der Busse, U-Bahnen, S-Bahnen und Trams für eine Haltestelle / einen Bahnhof abrufen. Dieses Projekt stellt einen Server für den eInk Bildschirm bereit und bilded dadurch ein Relais, das:
+Über diese Schnittstelle lassen sich auch die Abfahrtszeiten der Busse, U-Bahnen, S-Bahnen und Trams für eine Haltestelle / einen Bahnhof abrufen. Dieses Projekt stellt einen Server für den eInk Bildschirm bereit und bildet dadurch ein Relais, das:
 
 1. die Abfahrtsdaten über die MVG-Schnittstelle abruft,
 2. ein Bild mit den nächsten 7 Abfahrten anzeigt,
@@ -31,7 +31,7 @@ Die Schnittstelle lässt sich wie folgt abfragen:
 | `https://www.mvg.de/api/fahrinfo/departure/{id}?footway={offset}` | Fragt Abfahrtsinfos zu einer bestimmten Haltestelle / zu einem bestimmten Bahnhof ab. Der Wert für `{id}` für eine Haltestelle / einen Bahnhof kann über `queryWeb` erhalten werden. Der Wert `{offset}` gibt den Fußweg zur Haltestelle / zum Bahnhof in Minuten an. |
 | `/location/nearby?latitude={lat}&longitude={lon}` | Findet die nächste Haltestelle / den nächsten Bahnhof zu einer Koordinate (Breitengrad: `{lat}`; Längengrad: `{lon}`). |
 
-Diese Funktionen werden auch vom Server genutzt. Zudem gibt es auch eine Schnittstelle über `https://www.mvg.de/api/fahrinfo/routing/`, wobei die folgenden `GET` Werte gesetzt werden können - die wird aber nur der Vollständigkeit hier aufgelistet und nich vom Server genutzt:
+Diese Funktionen werden auch vom Server genutzt. Zudem gibt es auch eine Schnittstelle über `https://www.mvg.de/api/fahrinfo/routing/`, wobei die folgenden `GET` Werte gesetzt werden können - die wird aber nur der Vollständigkeit hier aufgelistet und nicht vom Server genutzt:
 
 | Argument | Wert | Info |
 | --- | --- | --- |
