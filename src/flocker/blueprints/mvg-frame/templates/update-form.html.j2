@@ -1,0 +1,42 @@
+<h2>{{ mac }}</h2>
+
+<form method="POST", action="{{ url_for('mvg-frame.update_data', mac=mac) }}">
+    <table cellspacing="0">
+    <tr>
+        <td></td>
+        <td></td>
+        <td><input type="text" name="offset_top" value="{{ data[mac].offset_top }}"></td>
+        <td></td>
+        <td></td>
+    </tr><tr>
+        <td></td>
+        <td></td>
+        <td>↑</td>
+        <td></td>
+        <td></td>
+    </tr><tr>
+        <td><input type="text" name="offset_left" value="{{ data[mac].offset_left }}"></td>
+        <td>←</td>
+        {% if data[mac].station_id is none %}
+            <td><input type="text" class="error" name="station_name" value="{{ data[mac].station_name }}"></td>
+        {% else %}
+            <td><input type="text" class="success" name="station_name" value="{{ data[mac].station_name }}"></td>
+        {% endif %}
+        <td>→</td>
+        <td><input type="text" name="offset_right" value="{{ data[mac].offset_right }}"></td>
+    </tr><tr>
+        <td></td>
+        <td></td>
+        <td>↓</td>
+        <td></td>
+        <td></td>
+    </tr><tr>
+        <td></td>
+        <td></td>
+        <td><input type="text" name="offset_bottom" value="{{ data[mac].offset_bottom }}"></td>
+        <td></td>
+        <td></td>
+    </tr>
+    </table>
+    <input type="submit" value="Update">
+</form>

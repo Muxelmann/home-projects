@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>MVG Frame</title>
+<meta name="description" content="MVG frame">
+<meta name="author" content="Max Zangs">
+<link rel="stylesheet" href="{{ url_for('static', filename='mvg-frame/style.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="content">
+<h1>All Registered screens</h1>
+
+{% if station_ids %}
+    <div class="frame-warning">
+    <h2>Warning</h2>
+    <p>Es wurden mehrere Ergebnisse gefunden, bitte wählen Sie eines aus oder geben sie einen neuen Suchbegriff ein:<p>
+    <ul>
+    {% for station_id in station_ids %}
+        <li><a href="{{ url_for('mvg-frame.update_data', mac=mac, station_id=station_id) }}">{{ station_ids[station_id] }}</a></li>
+    {% endfor %}
+    </ul>
+    </div>
+{% endif %}
+
+{% for mac in data %}
+    <div class="frame-data">
+        {% include 'mvg-frame/update-form.html.j2' %}
+    </div>
+{% endfor %}
+</div>
+{% endblock %}

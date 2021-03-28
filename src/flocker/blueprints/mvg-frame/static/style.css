@@ -1,0 +1,69 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.content {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.frame-data {
+    padding: 2em 0;
+    border-bottom: 2px solid black;
+}
+
+.frame-data:last-child {
+    border-bottom: none;
+}
+
+.frame-data input.error {
+    background-color: rgb(204, 27, 27);
+}
+
+.frame-data input.success {
+    background-color: rgb(17, 207, 134);
+}
+
+.frame-data input {
+    display: block;
+    margin: 0 auto;
+    padding: 0.25rem 0;
+    border: 1px solid grey;
+    border-radius: 4px;
+}
+
+.frame-data table {
+    width: 95%;
+    margin: 1rem auto;
+    padding: 0.5rem 0.125rem;
+    border-width: 5px;
+    border-color: blue;
+    border-style: ridge;
+}
+
+.frame-data table td {
+    text-align: center;
+}
+
+.frame-data table td input {
+    width: 95%;
+    text-align: center;
+}
+
+.frame-data input[type="submit"] {
+    width: 250px;
+    padding: 0.5rem;
+    text-transform: uppercase;
+    border-color: blue;
+    border-width: 3px;
+    border-radius: 0;
+    background-color: rgb(0, 0, 255);
+    color: white;
+}
+
+.frame-data input[type="submit"]:hover {
+    background-color: white;
+    color: blue;
+}
