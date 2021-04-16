@@ -23,6 +23,10 @@ Laut verschiedenen Quellen benötigt man einen Schlüsse, um automatisierte Abru
 
 ![Server Screenshot](https://github.com/Muxelmann/home-projects/raw/main/src/flocker/blueprints/mvg-frame/readme/server-ui.png)
 
+Der Anzeige wird dann ein mit Rändern versehenes Bild übersandt.
+
+![Server Screenshot](https://github.com/Muxelmann/home-projects/raw/main/src/flocker/blueprints/mvg-frame/readme/sample.png)
+
 ## MVG Schnittstelle (API)
 
 Die Schnittstelle lässt sich wie folgt abfragen:
@@ -75,6 +79,16 @@ Das Ergebnis kann dann an den Bildschirm übertragen werden.
 ### Warum keine Rohdaten?
 
 Ich hatte überlegt, ein 1bpp Bitmap zu übertragen. Jedoch scheint der ESP8266 bei `NULL` also `0x00` bzw. `0b00000000` das Ende der Nachricht zu erkennen anstatt (richtig) 8 aufeinanderfolgende schwarze Pixel zu erkennen. Da auch die Längenangabe des Inhalts der Nachricht (`Content-Length` im HTTP Header) ignoriert zu werden scheint, habe ich die Alternative mit HEX-Werten implementiert.
+
+## NO DATA
+
+Es kann sein, dass die Anzeige "*NO DATA*" ausgibt:
+
+![Server Screenshot](https://github.com/Muxelmann/home-projects/raw/main/src/flocker/blueprints/mvg-frame/readme/no-data-frame.jpeg)
+
+Hierbei handelt es sich aber nicht um einen Fehler der Anzeige, sondern um den Fall, dass über die Schnittstelle keine Daten empfangen werden können. Die App [MVG Fahrinfo](https://apps.apple.com/de/app/mvg-fahrinfo-m%C3%BCnchen/id343701044) empfing nämlich auch keine Daten:
+
+![Server Screenshot](https://github.com/Muxelmann/home-projects/raw/main/src/flocker/blueprints/mvg-frame/readme/no-data-app.png)
 
 ## Quellen
 
